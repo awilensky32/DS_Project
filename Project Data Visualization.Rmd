@@ -1,0 +1,90 @@
+# Data Visualization
+
+### View Dataset
+```{r}
+#glimpse(final_DatasetNoNa)
+# Load the readr package
+library(readr)
+
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+final_dataset <- read_csv('./final_DatasetNoNa.csv')
+```
+
+### Data Plot 1
+
+```{r}
+ggplot(final_dataset) + geom_point(aes(AvgFoodInsecurePctg, Crime.Rate, color=Proximity.to.Fresh.Food)) + xlab('Food Insecurity Percentage') + ylab('Crime Rate') + scale_y_continuous(limits = c(0, 10000)) + labs(color = 'Proximity To Fresh Food') + ggtitle('Percentage of City with Food Insecurity vs Crime Rate')
+```
+
+
+```{r}
+#glimpse(final_DatasetNoNa)
+```
+
+```{r}
+# View the distribution of crime rates
+ggplot(final_dataset, aes(Crime.Rate)) + geom_histogram()
+
+# Create Sorting Function
+my_sort <-function(col){
+  holder <- 0
+  for (i in 1:length(col)){
+    for (j in i: length(col)){
+      if (col[i] > col[j]) {
+        holder <- col[i]
+        col[i] <- col[j]
+        col[j] <- holder
+      }
+    }
+  }
+  return(col)
+}
+
+# Sort the final_DatasetNoNa$Crime.Rate vector
+# Then, since its length is divisible by 3
+# The first third of the sorted vector is considered low crime
+# The next thrid is considered average crime
+# THe last third is considered high crime
+
+sorted_vec <- my_sort(final_dataset$Crime.Rate)
+vec_length <- length(final_dataset$Crime.Rate)
+small_crime_rate_cutoff <- final_dataset$Crime.Rate[vec_length / 3] # 42
+normal_crime_rate_cutoff <- final_dataset$Crime.Rate[2 * (vec_length) / 3] # 84
+
+# Will go entry by entry through the final_DatasetNoNa$Crime.Rate vector
+# and will see if their crime rate belongs to either the first, middle, or
+# last third of the sorted vector
+# Then it will create a new vector where every entry will hold the label
+# associated with its crime rate (i.e 'low crime rate, 'average crime rate',
+# 'high crime rate')
+create_classification_col <- function(col, small_cutoff, mid_cutoff) {
+  new_col = c()
+  for (i in 1:length(col)){
+    if (col[i] <= small_crime_rate_cutoff) {
+      new_col <- append(new_col, 'low crime rate')
+    }
+    else if(col[i] > small_crime_rate_cutoff && col[i] <= normal_crime_rate_cutoff){
+      new_col <- append(new_col, 'average crime rate')
+    }
+    else {
+      new_col <- append(new_col, 'high crime rate')
+    }
+  }
+  return(new_col)
+}
+# Then this vector is stored in the crime_classification variable which is added as a new column to the original data and stored in the
+# austin_data variable
+crime_classification <- create_classification_col(col = final_dataset$Crime.Rate, small_cutoff = small_crime_rate_cutoff, mid_cutoff = normal_crime_rate_cutoff)
+
+austin_data <- final_dataset %>% mutate(Crime.Rate.Levels = crime_classification)
+```
+
+```{r}
+#glimpse(austin_data)
+```
+### Data Plot 2
+```{r}
+ggplot(austin_data, aes(AvgPopulation, AvgFoodInsecurePctg, color=Crime.Rate.Levels)) + geom_point() + facet_wrap(~Crime.Rate.Levels) + scale_color_manual(values=c('blue', 'red', 'green')) + labs(color ='Crime Status') + ylab('Average Food Insecure Population') +  xlab('Average Population') + ggtitle('Percentage of Food Insecure Population vs Average Population Faceted by Crime Levels')
+```
