@@ -33,8 +33,6 @@ https://data.austintexas.gov/Health-and-Community-Services/Strategic-Measure_HE-
 
 ![image](https://github.com/awilensky32/DS_Project/assets/54001698/9deffae3-9db8-4287-9b43-4c2b3e88821c)
 
-![image](https://github.com/awilensky32/DS_Project/assets/54001698/6ab5999b-e5f8-4db1-bd14-ab54768a7159)
-
 ![image](https://github.com/awilensky32/DS_Project/assets/54001698/9b46900d-9512-4e06-9a3b-530c217e06df)
 
 # Data Analysis
