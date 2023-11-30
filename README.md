@@ -1,5 +1,5 @@
 # Data Science Project Overview
-This project aims to establish connections between Family violenmce and location in Austin TX. Specifically, we're investigating the impact of Location measured in latitude and longitude, Location type (residence vs other areas) and other covariants on family violence within different areas of the city. By analyzing these relationships, we hope to gain insights that can inform strategies and better understand the attributes of family violence.
+This project aims to establish connections between Family violence and location in Austin TX. Specifically, we're investigating the impact of Location measured in latitude and longitude, Location type (residence vs other areas) and other covariants on family violence within different areas of the city. By analyzing these relationships, we hope to gain insights that can inform strategies and better understand the attributes of family violence.
 
 # Variables
 - Highest Offense Code: Identification code for type of offense
