@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Science Final Project</title>
+    <style>
+        .indented {
+            margin-left: 35px;
+        }
+        .indented ul {
+            list-style-type: circle;
+            margin-left: 25px;
+        }
+        .vertical-space {
+            margin-top: 40px;
+        }
+        .less-vertical-space {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Predicting Family Violence from APD Crime Reports and Location</h1>
+        <p>Callihan Bertely, Bhanu Sharma, Kashif Ghani, Anthony Truong, Brian Huynh, Adam Wilensky</p>
+        <h3 class="vertical-space"> Content Warning </h3>
+            <p>The following project involves discussions of sexual assault/violence and domestic violence. If you or anyone you know is experiencing or has experienced sexual assault/violence or domestic violence, please do not hesitate to reach out for help. <p>
+            <p> National Sexual Assault Hotline: 1-800-656-4673 <p>
+            <a href="https://hotline.rainn.org/online" target="_blank">Rape, Abuse, and Incest Network Hotline</a>
+            <p> National Domestic Violence Hotline: 1-800-799-7233 <p>
+            <a href="https://www.thehotline.org" target="_blank">National Domestic Violence Hotline</a>
+
+    <h2 class="vertical-space"> Objective </h2>
+        <p> This report delves into an analysis of crime data from Austin, Texas, for the year 2022, with a specific emphasis on family violence and related criminal activities. It seeks to provide insights into the patterns and dynamics of these crimes in the rapidly evolving urban landscape of Austin. <p>
+
+    <h2 class="vertical-space"> Background and Motivation </h2>
+        <p> Austin has recently experienced a significant influx of new residents, leading to increased urban congestion and diverse demographic changes. These dynamics can have complex effects on the nature and frequency of crimes, particularly those related to family violence. This project is motivated by the need to understand how these evolving urban conditions influence criminal activities and to identify specific patterns that emerge within this unique context.</p>
+
+    <h2 class="vertical-space"> Importance of the Problem </h2>
+        <p> The study of crime in Austin, specifically in the context of its changing demographics and increasing urban density, is crucial for several reasons:</p>
+        <p class="indented">1. <strong>Adapting to Demographic Changes:</strong>  The recent surge in immigration and population growth in Austin necessitates a fresh look at crime data to understand how these changes impact the nature and frequency of family violence and other crimes.</p>
+        <p class="indented">2. <strong>Informing Local Policies and Initiatives:</strong> Insights from this analysis can guide policymakers, law enforcement, and community leaders in Austin to develop tailored strategies that address the specific challenges of a growing and diversifying city.</p>
+        <p class="indented">3. <strong>Community Awareness and Support:</strong> By shedding light on the current state of family violence in Austin, this report aims to foster community awareness and encourage the development of targeted support systems for affected individuals.</p>
+        <p class="indented">4. <strong>Adapting to Demographic Changes:</strong>  While focused on Austin, this study's findings can provide valuable lessons for other cities experiencing similar demographic and urban shifts.</p>
+        <p>This report will explore the 2022 crime data for Austin, Texas, with a focus on family violence, employing a range of data science techniques to uncover key trends and insights relevant to the city’s crime-scape centered on family violence.</p>
+
+    <h2 class="vertical-space">Data</h2>
+        <h3> Objective</h3>
+                <p>The objective of this section is to describe the dataset utilized for analyzing crime and family violence in Austin, Texas, specifically focusing on the data from 2022 up to the present year 2023. This part also details the data preparation and cleaning processes.</p>
+        <h3>Source of the Data</h2>
+            <p>The dataset was sourced from the public crime records of Austin, Texas. It contains detailed information about various criminal incidents reported within the city, providing a comprehensive view of the crime landscape.</p>
+            <p>Data Source can be found below: </p>
+            <a href="https://data.austintexas.gov/Public-Safety/Crime-Reports/fdj4-gpfu" target="_blank">Visit data.austintexas.gov</a>></a>
+        <h3>Features/Variables in the Dataset</h3>
+            <p>Initially, the dataset included 27 columns, such as:</p>
+            <p class="indented"> <strong>Incident Number:</strong>  Unique identifier for each crime incident.</p>
+            <p class="indented"> <strong>Highest Offense Description and Code:</strong>  Details of the primary offense in the incident.</p>
+            <p class="indented"> <strong>Family Violence:</strong>  Indicator of family violence involvement.</p>
+            <p class="indented"> <strong>Occurred Date and Time:</strong>  Timestamps of the crime occurrence</p>
+            <p class="indented"> <strong>Geographical Details:</strong>  Including Location Type, Address, Zip Code.</p>
+            <p class="indented"> <strong>Jurisdictional Information:</strong>  Such as Council District, APD Sector, APD District.</p>
+            <p class="indented"> <strong>Investigative Details:</strong>  Including Census Tract, Clearance Status, Clearance Date.</p>
+            <p class="indented"> <strong>Crime Categorization:</strong> UCR Category, Category Description.</p>
+            <p class="indented"> <strong>Geospatial Data:</strong> Coordinates including X, Y, Latitude, Longitude.</p>
+        <h3>Data Cleaning and Preprocessing</h3>
+            <p class="indented">1. <strong> Removing Unnecessary Columns:</strong> Non-essential columns such as 'Clearance Date', 'UCR Category', and various location-specific details like 'X-coordinate', 'Y-coordinate' were removed for a more streamlined analysis.</p>
+            <p class="indented">2. <strong> Handling Missing Values:</strong> Rows containing NaN values were eliminated to ensure data integrity.</p>
+            <p class="indented">3. <strong> Data Filtering:</strong> The focus was narrowed to data from 2022 to the present year 2023, providing a current and relevant dataset for analysis.</p>
+            <p class="indented">4. <strong> Data Encoding and Normalization:</strong></p>
+            <ul class="indented">
+                <li>Binary encoding was applied to 'Family Violence'</li>
+                <li>Multi-label one-hot and general encoding transformed categorical data into machine-readable formats for variables like 'Highest Offense Code', 'Location Type', and others.</li>
+                <li>Date and time columns were processed, including extracting month and day, and normalizing 'Occurred Time'.</li>
+                <li>Min-max scaling was used for 'Latitude' and 'Longitude' to maintain consistency.</li>
+            </ul>
+
+    <h2>Exploratory Analysis</h2>
+        <h3>Objective</h3>
+            <p>The objective of this section is to delve into the dataset to uncover initial insights about family violence and crime patterns in Austin, Texas. This exploration is guided by visualizations and the formulation of hypotheses, primarily utilizing the Decision Tree Classifier for its high precision, recall, and interpretability.</p>
+        <h3>Hypotheses Development</h3>
+            <p>Four hypotheses were developed based on the data exploration and feature importance determined through SHAP (SHapley Additive exPlanations) values from the Decision Tree Classifier:</p>
+            <h4 class="indented"> <strong> Hypothesis 1: Family Violence Is More Common in Winter</strong></h4>
+                <p class="indented"> Analysis of SHAP values showed that the 'Occurred Month' feature had minimal impact on predicting family violence. This suggests that the season, including winter, does not significantly influence the likelihood of family violence in reported incidents</p>
+            <h4 class="indented"> <strong> Hypothesis 2: Family Violence Occurs More in Areas Away from the City</strong></h4>
+                <p class="indented"> The minimal impact of 'Latitude' and 'Longitude' features on the prediction model implies that the location of an incident in relation to Austin's city center does not significantly affect the probability of the incident involving family violence.</p>
+            <h4 class="indented"> <strong> Hypothesis 3: Family Violence Is More Common in Residential Areas</strong></h4>
+                <p class="indented"> Examination of the 'Location Type' feature indicated that only 0.002966% of incidents at 'Residence/Home' involved family violence, which is lower compared to other locations like 'Convenience Stores' and 'Hotels/Motels'. This suggests that family violence is not more prevalent in residential areas.</p>
+            <h4 class="indented"> <strong> Hypothesis 4: Incidents Involving Rape Are Less Likely to Include Family Violence</strong></h4>
+                <p class="indented"> Analysis revealed that reports of rape without family violence are more common than those with family violence. This suggests that incidents involving rape are less likely to coincide with family violence.</p>
+        <h3>Visualizations and Analysis</h3>
+        <p><strong> SHAP Summary Plot:</strong> Used for Hypotheses 1 and 2, this plot indicated the average impact of each feature on the model's predictions, guiding the conclusions drawn for these hypotheses.</p>
+        <img src="SHAP Values.png">
+        <p><strong> Horizontal Bar Plot for Family Violence in Different Locations:</strong> This visualization showed the proportion of family violence cases in various location types. The low percentage of such cases in residential areas led to the conclusion for Hypothesis 3.</p>
+        <img src="SDS Hypothesis 3.png">
+        <p><strong> Bar Plot Comparing Rape Incidents with and without Family Violence:</strong> This plot visually represented the proportion of rape incidents involving family violence versus those that did not, leading to the validation of Hypothesis 4.</p>
+        <img src="SDS Hypothesis 4.png">
+
+    <h2>Modeling</h2>
+        <h3>Objective</h3>
+            <p>The aim of this phase was to apply machine learning techniques for classification purposes in predicting family violence within the crime dataset of Austin, Texas. Various models were evaluated, not just for accuracy, which was consistently high across models, but also for other factors crucial to the study's objectives.</p>
+        <h3>Definition of the Task</h3>
+            <p>The task was approached as a binary classification problem. The primary goal was to predict whether an incident reported in the crime dataset was related to family violence. This classification task falls under supervised learning, utilizing a dataset with clearly defined labels.</p>
+        <h3>Algorithms and Methods Used</h3>
+            <p>Several machine learning models were employed in this phase:</p>
+            <p class="indented"> 1. Decision Tree Classifier: Selected for its balance between simplicity and predictive power.</p>
+            <p class="indented"> 2. Random Forest Classifier: An ensemble approach to gauge performance improvements over a single Decision Tree.</p>
+            <p class="indented"> 3. Logistic Regression: A fundamental model for binary classification tasks.</p>
+            <p class="indented"> 4. Naive Bayes: Known for its efficiency in classification tasks.</p>
+            <p class="indented"> 5. Support Vector Machine (SVM): Tested for its effectiveness in higher-dimensional spaces.</p>
+            <p class="indented"> 6. K-Nearest Neighbors (KNN): To assess the performance of instance-based learning.</p>
+            <p class="indented"> 7. Neural Network: Explored for its capability to model complex, non-linear relationships in data.</p>
+        <h3>Problem Setup</h3>
+            <p>The dataset was split into training and test sets in an 80-20 ratio, maintaining a balance between training and evaluation. A random state was set for reproducibility. Features (X) were all the preprocessed columns, excluding the target variable, 'Family Violence', which formed the binary target variable (y).</p>
+        <h3>Selection of the Decision Tree Model</h3>
+            <p>Given that all models showed similar accuracy levels (around 99%), the choice of the Decision Tree Classifier was based on additional criteria beyond accuracy. Crucially, its interpretability and the ease of understanding its decision-making process were significant factors. The optimal depth of the Decision Tree was determined through experimentation, where a depth of 6 layers provided the best balance between model complexity and performance. This depth choice helped in avoiding overfitting while maintaining a high level of prediction accuracy.</p>
+            <img src="Optimal Decision Tree Depth.png">
+
+        <h2>Discussion</h2>
+            <h3>Objective</h3>
+                <p>The purpose of this section is to discuss the performance of the chosen Decision Tree model, interpret its findings in the context of family violence prediction in Austin's crime data, and acknowledge any limitations or challenges encountered during the analysis.</p>
+            <h3>Evaluation Metrics and Results</h3>
+                <p>The Decision Tree Classifier, with a depth of six layers, demonstrated robust performance metrics:</p>
+                <ul class="indented">
+                    <li>Accuracy: The model achieved a high accuracy of 99%, indicating its effectiveness in correctly classifying the majority of the cases.</li>
+                    <li>Precision and Recall for Class 0 (No Family Violence): The model showed a precision of 99% and a recall of 100%, indicating excellent performance in identifying true negatives (cases without family violence).</li>
+                    <li>Precision and Recall for Class 1 (Family Violence): The precision was 87%, and the recall was 71%. While these values are lower than those for Class 0, they still represent a significant ability of the model to identify true positives (cases with family violence).</li>
+                </ul>
+            <h3>Interpretation of the Model's Findings</h3>
+                <p>The model's high accuracy and strong performance in both precision and recall, particularly for Class 0, suggest that it can reliably identify cases without family violence. However, the slightly lower precision and recall for Class 1 indicate some challenges in correctly classifying all true positive cases. This could be attributed to the complexity and varied nature of family violence incidents, which may not always be clearly defined or discernible based on the available features in the dataset. </p>
+                <img src="Decision Tree Confusion Matrix.png">
+            <h3>Potential Limitations and Challenges</h3>
+                <p class="indented">1. Imbalanced Dataset: The number of non-family violence cases significantly outnumbered the family violence cases. This imbalance could have influenced the model's ability to learn and predict family violence incidents effectively.</p>
+                <p class="indented">2. Limited Scope of Features: The model's predictions were based on the available features in the dataset. Certain nuances and contextual factors that play a crucial role in family violence incidents might not have been captured.</p>
+                <p class="indented">3. Model Interpretability vs. Complexity: While the Decision Tree's interpretability was a key reason for its selection, this might have come at the cost of capturing more complex patterns that a more sophisticated model might have identified.</p>
+                <p class="indented">4. Generalization Concerns: The model was trained and tested on data specifically from Austin, Texas. Its performance in other regions or contexts might vary, raising questions about its generalizability.</p>
+                <p>The Decision Tree Classifier, with its high accuracy and reasonable precision and recall, proved to be a useful tool in predicting family violence in the context of Austin's crime data. However, the challenges posed by an imbalanced dataset, the limitations of the available features, and concerns about the model's complexity and generalization are significant limitations. The high number of true negatives indicates that The model is very effective at identifying cases that do not involve family violence. However, the presence of false negatives indicates that the model is more likely to miss actual cases of family violence than to incorrectly identify non-violence cases as such. This could be a critical factor when considering the application of the model, as missing actual cases of family violence (false negatives) could be more detrimental than falsely identifying them (false positives)</p>
+
+        <h2>Ethics</h2>
+            <h3>Objective</h3>
+                <p>Upon reflecting on the completed project on family violence and crime in Austin, Texas, the AREA Plus (4p) Framework prompts a thoughtful retrospective evaluation of the ethical considerations that were integrated into our research. In particular, the principles of <strong> Project Risks, Potential Conflicts, Stakeholder Involvement, </strong> and <strong>Openness </strong> have significant implications for understanding the ethical dimensions of our work.</p>
+                <p>With <strong>Project Risks</strong> in mind, it's clear that identifying and mitigating risks at the outset was crucial. In retrospect, examining how we navigated data privacy issues and potential biases in our methodologies can inform the evaluation of our project's success and guide improvements for future research. Understanding how these risks were communicated and managed is crucial for maintaining the integrity of our research and its acceptance by the public and academic community.</p>
+                <p>Reflecting on <strong>Potential Conflicts</strong> allows us to acknowledge the diverse range of interests and expectations that stakeholders may have held. Assessing how these potential conflicts were handled offers insight into our project's objectivity and the effectiveness of our engagement strategies. It brings to light the importance of balancing various perspectives while maintaining a clear focus on the research goals.</p>
+                <p><strong>Engagement with stakeholders</strong> is another area where looking back can be particularly instructive. The project's impact and relevance heavily depend on the involvement of those it aims to serve. By evaluating our engagement practices, we can learn valuable lessons about the inclusivity of our approach and the extent to which we successfully incorporated a wide array of voices and experiences into our research process.</p>
+                <p>Lastly, the principle of <strong>Openness</strong> challenges us to consider how transparent we were in sharing our findings, methodologies, and data. Post-project analysis under this principle could reveal how our commitment to openness may have facilitated the dissemination of knowledge, contributed to public discourse, and encouraged the adoption of best practices within the field.</p>
+        <h2>Conclusion</h2>
+                <p>Our project examining family violence within Austin's crime reports from 2022 onwards yielded a clear finding: certain locations and times have more family violence incidents than others, challenging the assumption that such violence occurs more frequently in residential areas or during specific seasons. The Decision Tree Classifier proved to be an effective, albeit not perfect, predictor of family violence.</p>
+                <p>For future research, a closer look at socio-economic variables, deeper analysis with real-time data, and a broader scope encompassing similar urban centers could refine our understanding of family violence patterns. The insights gained could guide more targeted and timely interventions, ultimately contributing to safer communities.</p>
+                <p>The project demonstrates the potential of data-driven approaches to inform public safety and policy, especially in rapidly growing urban settings like Austin. Further research in this vein not only promises to improve local strategies but also offers a template that could be adapted for wider application in comparable cities.</p>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
